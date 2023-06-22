@@ -9,9 +9,7 @@ with st.sidebar:
 
 st.title("💬 GPT Genie")
 openai_api_key = st.secrets["chatbot_api_key"]
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "Tell me about yourself"}]
-    with st.form("chat_input", clear_on_submit=True):
+with st.form("chat_input", clear_on_submit=True):
         a, b = st.columns([4, 1])
         a.text('Enter your name')
         user_input = a.text_input(
@@ -38,6 +36,9 @@ if "messages" not in st.session_state:
             label_visibility="collapsed",
         )
         b.form_submit_button("Send", use_container_width=True)
+    
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "Tell me about yourself"}]
 else:
     with st.form("second_chat", clear_on_submit=True):
         a, b = st.columns([4, 1])
