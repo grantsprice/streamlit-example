@@ -19,6 +19,11 @@ with st.form("chat_input", clear_on_submit=True):
         placeholder="What would you like to say?",
         label_visibility="collapsed",
     )
+    user_occupation = a.text_input(
+        label="What is your occupation?",
+        placeholder="Firefighter!",
+        label_visibility="collapsed",
+    )
     b.form_submit_button("Send", use_container_width=True)
 
 for msg in st.session_state.messages:
