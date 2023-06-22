@@ -24,6 +24,16 @@ with st.form("chat_input", clear_on_submit=True):
         placeholder="Firefighter!",
         label_visibility="collapsed",
     )
+    user_age = a.text_input(
+        label="What is your age?",
+        placeholder="Enter age...",
+        label_visibility="collapsed",
+    )
+    user_physical = a.text_input(
+        label="What sort of physical activity do you do?",
+        placeholder="Olympic swimmer?",
+        label_visibility="collapsed",
+    )
     b.form_submit_button("Send", use_container_width=True)
 
 for msg in st.session_state.messages:
@@ -34,9 +44,12 @@ if user_input and not openai_api_key:
     
 if user_input and openai_api_key:
     openai.api_key = openai_api_key
+    st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.messages.append({"role": "user", "content": "My occupation is "})
     st.session_state.messages.append({"role": "user", "content": user_occupation})
+    st.session_state.messages.append({"role": "user", "content": "I am "+user_age+" years old"})
+    st.session_state.messages.append({"role": "user", "content": user_physical})
     message(user_input, is_user=True)
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
