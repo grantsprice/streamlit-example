@@ -48,7 +48,7 @@ else:
             label_visibility="collapsed",
         )
         b.form_submit_button("Send", use_container_width=True)
-        if user_input and openai_api_key:
+        if user_change and openai_api_key:
             openai.api_key = openai_api_key
             st.session_state.messages.append({"role": "user", "content": user_change})
             message("Improving life story...", is_user=True)
