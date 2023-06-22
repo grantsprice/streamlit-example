@@ -11,34 +11,52 @@ st.title("💬 GPT Genie")
 openai_api_key = st.secrets["chatbot_api_key"]
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "Tell me about yourself"}]
-
-with st.form("chat_input", clear_on_submit=True):
+    with st.form("chat_input", clear_on_submit=True):
+        a, b = st.columns([4, 1])
+        a.text('Enter your name')
+        user_input = a.text_input(
+            label="Your message:",
+            placeholder="What should we call you?",
+            label_visibility="collapsed",
+        )
+        a.text('What do you do?')
+        user_occupation = a.text_input(
+            label="What is your occupation?",
+            placeholder="Firefighter!",
+            label_visibility="collapsed",
+        )
+        a.text('How old are you?')
+        user_age = a.text_input(
+            label="What is your age?",
+            placeholder="Enter age...",
+            label_visibility="collapsed",
+        )
+        a.text('What sort of physical activity do you do?')
+        user_physical = a.text_input(
+            label="What sort of physical activity do you do?",
+            placeholder="Olympic swimmer?",
+            label_visibility="collapsed",
+        )
+        b.form_submit_button("Send", use_container_width=True)
+else
+    with st.form("second_chat", clear_on_submit=True):
     a, b = st.columns([4, 1])
-    a.text('Enter your name')
-    user_input = a.text_input(
+    a.text('Are there any changes you would like to make?')
+    user_change = a.text_input(
         label="Your message:",
-        placeholder="What should we call you?",
-        label_visibility="collapsed",
-    )
-    a.text('What do you do?')
-    user_occupation = a.text_input(
-        label="What is your occupation?",
-        placeholder="Firefighter!",
-        label_visibility="collapsed",
-    )
-    a.text('How old are you?')
-    user_age = a.text_input(
-        label="What is your age?",
-        placeholder="Enter age...",
-        label_visibility="collapsed",
-    )
-    a.text('What sort of physical activity do you do?')
-    user_physical = a.text_input(
-        label="What sort of physical activity do you do?",
-        placeholder="Olympic swimmer?",
+        placeholder="Improve!",
         label_visibility="collapsed",
     )
     b.form_submit_button("Send", use_container_width=True)
+    if user_input and openai_api_key:
+        openai.api_key = openai_api_key
+        st.session_state.messages.append({"role": "user", "content": user_change})
+        message("Improving life story...", is_user=True)
+        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        msg = response.choices[0].message
+        st.session_state.messages.append(msg)
+        message(msg.content)
+
 
 for msg in st.session_state.messages:
     message(msg["content"], is_user=msg["role"] == "user")
@@ -60,20 +78,3 @@ if user_input and openai_api_key:
     st.session_state.messages.append(msg)
     message(msg.content)
 
-with st.form("second_chat", clear_on_submit=True):
-    a, b = st.columns([4, 1])
-    a.text('Are there any changes you would like to make?')
-    user_change = a.text_input(
-        label="Your message:",
-        placeholder="Improve!",
-        label_visibility="collapsed",
-    )
-    b.form_submit_button("Send", use_container_width=True)
-    if user_input and openai_api_key:
-        openai.api_key = openai_api_key
-        st.session_state.messages.append({"role": "user", "content": user_change})
-        message("Improving life story...", is_user=True)
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message
-        st.session_state.messages.append(msg)
-        message(msg.content)
