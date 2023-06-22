@@ -60,7 +60,7 @@ if user_input and openai_api_key:
     st.session_state.messages.append(msg)
     message(msg.content)
 
-with st.form("chat_input", clear_on_submit=True):
+with st.form("second_chat", clear_on_submit=True):
     a, b = st.columns([4, 1])
     a.text('Are there any changes you would like to make?')
     user_change = a.text_input(
