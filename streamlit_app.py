@@ -14,21 +14,25 @@ if "messages" not in st.session_state:
 
 with st.form("chat_input", clear_on_submit=True):
     a, b = st.columns([4, 1])
+    a.text('Enter your name')
     user_input = a.text_input(
         label="Your message:",
-        placeholder="What would you like to say?",
+        placeholder="What should we call you?",
         label_visibility="collapsed",
     )
+    a.text('What do you do?')
     user_occupation = a.text_input(
         label="What is your occupation?",
         placeholder="Firefighter!",
         label_visibility="collapsed",
     )
+    a.text('How old are you?')
     user_age = a.text_input(
         label="What is your age?",
         placeholder="Enter age...",
         label_visibility="collapsed",
     )
+    a.text('What sort of physical activity do you do?')
     user_physical = a.text_input(
         label="What sort of physical activity do you do?",
         placeholder="Olympic swimmer?",
@@ -50,7 +54,7 @@ if user_input and openai_api_key:
     st.session_state.messages.append({"role": "user", "content": user_occupation})
     st.session_state.messages.append({"role": "user", "content": "I am "+user_age+" years old"})
     st.session_state.messages.append({"role": "user", "content": user_physical})
-    message(user_input, is_user=True)
+    message("Sharing life story...", is_user=True)
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
     st.session_state.messages.append(msg)
