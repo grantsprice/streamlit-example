@@ -38,7 +38,7 @@ if "messages" not in st.session_state:
             label_visibility="collapsed",
         )
         b.form_submit_button("Send", use_container_width=True)
-else
+else:
     with st.form("second_chat", clear_on_submit=True):
     a, b = st.columns([4, 1])
     a.text('Are there any changes you would like to make?')
