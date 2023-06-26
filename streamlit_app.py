@@ -35,6 +35,12 @@ with st.form("chat_input", clear_on_submit=True):
             placeholder="Olympic swimmer?",
             label_visibility="collapsed",
         )
+        a.text('Any other hobbies?')
+        user_hobbies = a.text_input(
+            label="Hobbies",
+            placeholder="Just for fun...",
+            label_visibility="collapsed",
+        )
         b.form_submit_button("Send", use_container_width=True)
     
 if "messages" not in st.session_state:
@@ -73,7 +79,8 @@ if user_input and openai_api_key:
     st.session_state.messages.append({"role": "user", "content": "My occupation is "})
     st.session_state.messages.append({"role": "user", "content": user_occupation})
     st.session_state.messages.append({"role": "user", "content": "I am "+user_age+" years old"})
-    st.session_state.messages.append({"role": "user", "content": user_physical})
+    st.session_state.messages.append({"role": "user", "content": "I do " + user_physical})
+    st.session_state.messages.append({"role": "user", "content": " and " + user_hobbies})
     message("Sharing life story...", is_user=True)
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
