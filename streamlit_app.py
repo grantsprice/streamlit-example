@@ -45,25 +45,6 @@ with st.form("chat_input", clear_on_submit=True):
     
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "Tell me about yourself"}]
-else:
-    with st.form("second_chat", clear_on_submit=True):
-        a, b = st.columns([4, 1])
-        a.text('Are there any changes you would like to make?')
-        user_change = a.text_input(
-            label="Your message:",
-            placeholder="Improve!",
-            label_visibility="collapsed",
-        )
-        b.form_submit_button("Send", use_container_width=True)
-        if user_change and openai_api_key:
-            openai.api_key = openai_api_key
-            st.session_state.messages.append({"role": "user", "content": user_change})
-            message("Improving life story...", is_user=True)
-            response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-            msg = response.choices[0].message
-            st.session_state.messages.append(msg)
-            message(msg.content)
-
 
 for msg in st.session_state.messages:
     message(msg["content"], is_user=msg["role"] == "user")
@@ -73,7 +54,7 @@ if user_input and not openai_api_key:
     
 if user_input and openai_api_key:
     openai.api_key = openai_api_key
-    st.session_state.messages.append({"role": "system", "content": "Life predictions should not be vague. They should include a specific company or entrpeneurial pursuit that the person is engaged in, and specific physical activities that they enjoy. Prediction should also include the name of spouse and a brief description if applicable."})
+    st.session_state.messages.append({"role": "system", "content": "Life predictions should be as specific as possible. They should include a specific company at which the person works."})
     st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.messages.append({"role": "user", "content": "My occupation is "})
@@ -87,3 +68,20 @@ if user_input and openai_api_key:
     st.session_state.messages.append(msg)
     message(msg.content)
 
+with st.form("second_chat", clear_on_submit=True):
+    a, b = st.columns([4, 1])
+    a.text('Are there any changes you would like to make?')
+    user_change = a.text_input(
+        label="Your message:",
+        placeholder="Improve!",
+        label_visibility="collapsed",
+    )
+    b.form_submit_button("Send", use_container_width=True)
+    if user_change and openai_api_key:
+        openai.api_key = openai_api_key
+        st.session_state.messages.append({"role": "user", "content": user_change})
+        message("Improving life story...", is_user=True)
+        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        msg = response.choices[0].message
+        st.session_state.messages.append(msg)
+        message(msg.content)
