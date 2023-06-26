@@ -67,6 +67,7 @@ if user_input and not openai_api_key:
     
 if user_input and openai_api_key:
     openai.api_key = openai_api_key
+    st.session_state.messages.append({"role": "system", "content": "Life predictions should not be vague. They should include a specific company or entrpeneurial pursuit that the person is engaged in, and specific physical activities that they enjoy. Prediction should also include the name of spouse and a brief description if applicable."})
     st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.messages.append({"role": "user", "content": "My occupation is "})
