@@ -54,21 +54,20 @@ if user_input and not openai_api_key:
     
 if user_input and openai_api_key:
     openai.api_key = openai_api_key
-    if st.session_state.get("submitted_form"):
-        st.session_state.messages.append({"role": "user", "content": "Life predictions should be as specific as possible. They should include a specific company at which the person works."})
-        st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        st.session_state.messages.append({"role": "user", "content": "My occupation is "})
-        st.session_state.messages.append({"role": "user", "content": user_occupation})
-        st.session_state.messages.append({"role": "user", "content": "I am "+user_age+" years old"})
-        st.session_state.messages.append({"role": "user", "content": "I do " + user_physical})
-        st.session_state.messages.append({"role": "user", "content": " and " + user_hobbies})
-        message("Sharing life story...", is_user=True)
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message
-        st.session_state.messages.append(msg)
-        message(msg.content)
-        st.session_state["submitted_form"] = False
+    st.session_state.messages.append({"role": "user", "content": "Life predictions should be as specific as possible. They should include a specific company at which the person works."})
+    st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    st.session_state.messages.append({"role": "user", "content": "My occupation is "})
+    st.session_state.messages.append({"role": "user", "content": user_occupation})
+    st.session_state.messages.append({"role": "user", "content": "I am "+user_age+" years old"})
+    st.session_state.messages.append({"role": "user", "content": "I do " + user_physical})
+    st.session_state.messages.append({"role": "user", "content": " and " + user_hobbies})
+    message("Sharing life story...", is_user=True)
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    msg = response.choices[0].message
+    st.session_state.messages.append(msg)
+    message(msg.content)
+        
 
     with st.form("second_chat", clear_on_submit=True):
         a, b = st.columns([4, 1])
