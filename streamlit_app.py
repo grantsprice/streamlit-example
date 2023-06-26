@@ -68,20 +68,20 @@ if user_input and openai_api_key:
     st.session_state.messages.append(msg)
     message(msg.content)
 
-with st.form("second_chat", clear_on_submit=True):
-    a, b = st.columns([4, 1])
-    a.text('Are there any changes you would like to make?')
-    user_change = a.text_input(
-        label="Your message:",
-        placeholder="Improve!",
-        label_visibility="collapsed",
-    )
-    b.form_submit_button("Send", use_container_width=True)
-    if user_change and openai_api_key:
-        openai.api_key = openai_api_key
-        st.session_state.messages.append({"role": "user", "content": user_change})
-        message("Improving life story...", is_user=True)
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message
-        st.session_state.messages.append(msg)
-        message(msg.content)
+    with st.form("second_chat", clear_on_submit=True):
+        a, b = st.columns([4, 1])
+        a.text('Are there any changes you would like to make?')
+        user_change = a.text_input(
+            label="Your message:",
+            placeholder="Improve!",
+            label_visibility="collapsed",
+        )
+        b.form_submit_button("Send", use_container_width=True)
+        if user_change and openai_api_key:
+            openai.api_key = openai_api_key
+            st.session_state.messages.append({"role": "user", "content": user_change})
+            message("Improving life story...", is_user=True)
+            response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+            msg = response.choices[0].message
+            st.session_state.messages.append(msg)
+            message(msg.content)
