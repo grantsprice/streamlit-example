@@ -54,7 +54,7 @@ if user_input and not openai_api_key:
     
 if user_input and openai_api_key:
     openai.api_key = openai_api_key
-    st.session_state.messages.append({"role": "user", "content": "Life predictions should be as specific as possible. They should include a specific company at which the person works."})
+    st.session_state.messages.append({"role": "user", "content": "Life predictions should be as specific as possible. Include as many specific years as possible."})
     st.session_state.messages.append({"role": "user", "content": "Give me a life prediction based on the following: "})
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.messages.append({"role": "user", "content": "My occupation is "})
